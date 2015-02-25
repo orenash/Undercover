@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html ng-app="Undercover">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Undercover</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.1/angular.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="utils.js"></script>
+    <script src="index.js"></script>
+
+    <link rel="stylesheet" href="main.css" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+</head>
+
+<body ng-controller="UndercoverCtrl" ng-class="{disabled:pending}">
+
+    <div class="title"><i class="fa fa-user-secret"></i> Undercover</div>
+
+    <div ng-if="player.mission">
+        <i class="fa fa-flag"></i>
+        <b>Mission:</b> <span class="card card-mission">{{player.mission.title}}</span>
+        <span class="card card-mission"><b>Requires:</b> {{player.mission.reqSpies}} spies,
+            {{player.mission.reqItems | reqs}}</span>
+        <span class="card card-mission"><b>Location:</b> {{player.mission.location}}</span>
+        </span>
+    </div>
+    <div ng-if="player.items">
+        <i class="fa fa-wrench"></i>
+        <b>Item cards:</b> <span class="card card-item" ng-repeat="item in player.items track by $index"
+                        ng-click="playerCardClicked('item',$index)">{{item}}</span>
+    </div>
+    <div ng-if="player.locations">
+        <i class="fa fa-bullseye"></i>
+        <b>Location cards:</b> <span class="card card-location" ng-repeat="location in player.locations track by $index"
+                         ng-click="playerCardClicked('location',$index)">{{location}}</span>
+    </div>
+    <div ng-if="player.communications">
+        <i class="fa fa-comment"></i>
+        <b>Communication cards:</b> <span class="card card-communication" ng-repeat="comm in player.communications track by $index"
+                              ng-click="playerCardClicked('communication',$index)">{{comm}}</span>
+    </div>
+    <!--<div><span class="card">Speciality: {{player.speciality}}</span></div>-->
+
+    <div ng-if="state=='NAME'">
+        <input type="text" ng-model="name" placeholder="Please enter your name..." />
+        <button ng-click="connect(name)">Start playing!</button>
+    </div>
+
+    <div ng-if="state=='CONNECTING'">
+        Connecting to server...
+    </div>
+
+    <div ng-if="state=='DISCONNECTED'">
+        Refresh to start a new game.
+    </div>
+
+    <div ng-if="state=='ERROR'">
+        Connecting error: {{error}}
+    </div>
+
+    <div ng-if="pending" class="pending">
+        <i class="fa fa-spinner fa-spin"></i> Waiting for server...
+    </div>
+
+    <div ng-if="state=='WAITING'">
+        Waiting for other players...
+        <span ng-if="waitingPlayers">({{waitingPlayers}} already joined)</span>
+    </div>
+
+    <div ng-if="round">
+        Round number #{{round}}.
+        <span ng-if="roundLocation">You're at {{roundLocation}}.</span>
+
+        <span ng-if="state=='CHOOSE_LOCATION' && !pending">
+            Choose a location from your cards
+        </span>
+
+        <span ng-if="state=='TURN' && !pending">
+            Choose your action :
+            <button ng-click="doTurnAction('visitCache')">Visit the cache</button>
+            <button ng-click="doTurnAction('pickItem')">Pick an item card</button>
+            <button ng-click="doTurnAction('pickLocation')">Pick a location card</button>
+            <button ng-click="doTurnAction('pickCommunications')">Pick two communication cards</button>
+            <button ng-click="doTurnAction('takeSpecialItem')">Take the special item</button>
+            <button ng-click="doTurnAction('announce')">Announce yourself!</button>
+        </span>
+
+        <div ng-if="state=='CACHE' && !pending">
+            <div>
+                Cache contents: <span ng-repeat="card in cache" ng-click="cacheCardClicked($index)"
+                                      class="card" ng-class="'card-'+card.type">{{card.value}}</span>
+            </div>
+            <div>
+                <button ng-click="toggleReorderCache()">
+                    {{reorderingCache?'Finish reorder':'Reorder cache'}}
+                </button>
+                <button ng-click="exitCache()">Exit cache</button>
+            </div>
+        </div>
+
+        <span ng-if="state=='DISCARD'">
+            You have too many cards in hand, click some to discard.
+        </span>
+
+    </div>
+
+    <div ng-if="players" class="players">
+        Players:
+        <span ng-repeat="p in players"
+              class="player" ng-class="{'player-turn':turn==$index, 'player-captured':p.captured}">
+            {{p.name}}</span>
+    </div>
+
+</body>
+
+</html>

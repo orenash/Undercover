@@ -1,0 +1,111 @@
+* {
+    font-family: "Verdana";
+}
+
+body {
+    margin: 0px;
+}
+
+body > div {
+    padding: 5px;
+    font-size: 14px;
+}
+
+body > div:nth-child(even) {
+    background-color: #F6F6F6;
+}
+
+body > div.title {
+    color: white;
+    font-size: 30px;
+    text-align: center;
+    background-color: #002244;
+}
+
+.card {
+    color: black;
+    margin:3px;
+    padding: 3px;
+    white-space: nowrap;
+    display: inline-block;
+}
+
+.card-item {
+    background-color: lightgreen;
+}
+
+.card-location {
+    background-color: lightsteelblue;
+}
+
+.card-communication {
+    background-color: antiquewhite;
+}
+
+.card-mission {
+    background-color: lightgrey;
+}
+.player {
+    margin: 3px;
+    padding: 3px;
+    background-color: #FFE4FF;
+}
+.player-turn {
+    background-color: #FFC8FF;
+}
+.player-captured {
+    text-decoration: line-through;
+}
+
+.pending {
+    position:absolute;
+    border: 1px solid black;
+    width:200px;
+    text-align: center;
+    top: 100px;
+    left: 50%;
+    margin-left: -50px;
+    opacity: 1;
+    padding: 10px;
+}
+
+body.disabled {
+    opacity: 0.5;
+}
+
+.players {
+    position: fixed;
+    left:0;
+    right:0;
+    bottom:0;
+    z-index:5;
+    border-top: 1px solid black;
+    background-color: white;
+}
+
+
+@media only screen and (max-device-width: 1080px) {
+    body > div.title {
+        font-size: 100px;
+    }
+    body > div {
+        padding: 30px;
+        font-size: 50px;
+    }
+    body > div > i {
+        float: left;
+        display:block;
+        margin-right: 30px;
+    }
+    .card {
+        display:block;
+        margin: 25px;
+        padding: 15px;
+    }
+    button {
+        display: block;
+        margin: 25px;
+        padding: 15px;
+        font-size: 50px;
+    }
+}
