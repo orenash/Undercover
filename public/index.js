@@ -163,7 +163,7 @@ angular.module("Undercover", [])
             doAction("takeFromCache", card);
             onActionComplete = function() {
                 var deck = Utils.getPlayerDeckByType($scope.player, $scope.cache[card].type);
-                deck.push($scope.cache[card].value)
+                deck.push($scope.cache[card].value);
                 $scope.cache.splice(card, 1);
             }
         }

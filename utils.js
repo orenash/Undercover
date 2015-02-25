@@ -18,19 +18,6 @@ var Utils = {
         return arr;
     },
 
-    randomArray: function (size) {
-        var arr = [];
-        var letters = "abcdefghijklmnopqrstuvwxyz";
-        for (var i = 0; i < size; i++) {
-            var str = "";
-            for (var j = 0; j < 5; j++) {
-                str += letters.charAt(Math.floor(Math.random() * letters.length));
-            }
-            arr.push(str);
-        }
-        return arr;
-    },
-
     shuffle: function (array) {
         var counter = array.length, temp, index;
 
