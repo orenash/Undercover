@@ -254,14 +254,18 @@ pr.announce = function(p) {
             playersInLocation.push(p);
     }
 
-    if (playersInLocation.length<=1) {
-        // No other player in the announcer location
-        console.log("No other player in "+location+", "+p+"got captured!");
-        this.playerCaptured(p);
+    if (this.checkMissionConditions(playersInLocation, location)) {
+        this.io.to(this.room).emit("finishGame", true);
+        this.turnActionComplete("announce");
         return;
     }
 
-    // TODO check mission conditions here?
+    if (playersInLocation.length<=1) {
+        // No other player in the announcer location
+        console.log("No other player in "+location+", player "+p+" got captured!");
+        this.playerCaptured(p);
+        return;
+    }
 
     console.log("Meetup in "+location+" ("+JSON.stringify(playersInLocation)+")");
 
@@ -272,6 +276,21 @@ pr.announce = function(p) {
     this.startMeetupTurn();
 
     //this.turnActionComplete("announce"); TODO
+}
+
+pr.checkMissionConditions = function(players, location) {
+    var allItems = Utils.joinItems(this.players, players);
+    for (var p in players) {
+        var mission = this.players[p].mission;
+        if (location == mission.location &&
+            players.length >= mission.reqSpies &&
+            Utils.hasItemsMul(allItems, mission.reqItems, true)) {
+
+            console.log("Conditions met for mission of player "+p+" at "+location+": "+mission.title);
+            return true;
+        }
+    }
+    return false;
 }
 
 pr.startMeetupTurn = function() {
