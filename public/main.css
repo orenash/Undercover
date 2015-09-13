@@ -28,6 +28,7 @@ body > div.title {
     padding: 3px;
     white-space: nowrap;
     display: inline-block;
+    cursor: pointer;
 }
 
 .card-item {

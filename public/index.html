@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" href="main.css" />
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 </head>
 
 <body ng-controller="UndercoverCtrl" ng-class="{disabled:pending}">
@@ -42,8 +43,10 @@
     <!--<div><span class="card">Speciality: {{player.speciality}}</span></div>-->
 
     <div ng-if="state=='NAME'">
-        <input type="text" ng-model="name" placeholder="Please enter your name..." />
-        <button ng-click="connect(name)">Start playing!</button>
+      <form>
+        <input type="text" ng-model="name" placeholder="Please enter your name" autofocus />
+          <button type="submit" class="btn btn-primary btn-sm" ng-click="connect(name)">Start playing!</button>
+        </form>
     </div>
 
     <div ng-if="state=='CONNECTING'">
@@ -77,12 +80,12 @@
 
         <span ng-if="state=='TURN' && !pending">
             Choose your action :
-            <button ng-click="doTurnAction('visitCache')">Visit the cache</button>
-            <button ng-click="doTurnAction('pickItem')">Pick an item card</button>
-            <button ng-click="doTurnAction('pickLocation')">Pick a location card</button>
-            <button ng-click="doTurnAction('pickCommunications')">Pick two communication cards</button>
-            <button ng-click="doTurnAction('takeSpecialItem')">Take the special item</button>
-            <button ng-click="doTurnAction('announce')">Announce yourself!</button>
+            <button class="btn btn-default btn-sm" ng-click="doTurnAction('visitCache')">Visit the cache</button>
+            <button class="btn btn-default btn-sm" ng-click="doTurnAction('pickItem')">Pick an item card</button>
+            <button class="btn btn-default btn-sm" ng-click="doTurnAction('pickLocation')">Pick a location card</button>
+            <button class="btn btn-default btn-sm" ng-click="doTurnAction('pickCommunications')">Pick two communication cards</button>
+            <button class="btn btn-default btn-sm" ng-click="doTurnAction('takeSpecialItem')">Take the special item</button>
+            <button class="btn btn-primary btn-sm" ng-click="doTurnAction('announce')">Announce yourself!</button>
         </span>
 
         <div ng-if="state=='CACHE' && !pending">
@@ -91,10 +94,10 @@
                                       class="card" ng-class="'card-'+card.type">{{card.value}}</span>
             </div>
             <div>
-                <button ng-click="toggleReorderCache()">
+                <button class="btn btn-primary btn-sm" ng-click="toggleReorderCache()">
                     {{reorderingCache?'Finish reorder':'Reorder cache'}}
                 </button>
-                <button ng-click="exitCache()">Exit cache</button>
+                <button class="btn btn-default btn-sm" ng-click="exitCache()">Exit cache</button>
             </div>
         </div>
 

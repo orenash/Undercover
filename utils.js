@@ -63,11 +63,19 @@ var Utils = {
     hasItemsMul: function(array, itemsMul, substring) {
         for (var item in itemsMul) {
             var count = array.filter(function(i) {
-                return item==i ||  (substring && i.indexOf(item) > -1);
+                return item==i || (substring && i.indexOf(item) > -1);
             }).length;
             if (count<itemsMul[item]) return false;
         }
         return true;
+    },
+
+    joinItems: function(players, indices) {
+        items = [];
+        for (var i = 0; i < indices.length; i++) {
+            items = items.concat(players[indices[i]].items);
+        }
+        return items;
     },
 
     removeItems: function (array, items, substring) {
