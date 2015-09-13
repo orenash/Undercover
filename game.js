@@ -221,16 +221,11 @@ pr.takeSpecialItem = function(p) {
             throw "There is no special item in " + this.roundLocations[p];
         }
     }
-    var allowed = false;
-    for (var r in loc.specialItemReq) {
-        // Iterate through different requirement options
-        var reqItems = loc.specialItemReq[r];
-        if (Utils.hasItems(pl.items, reqItems, true)) {
-            //Utils.removeItems(pl.items, reqItems, true);
-            allowed = true;
-            break;
-        }
-    }
+
+    var allowed = loc.specialItemReq.some(function(reqItems){
+        return Utils.hasItems(pl.items, reqItems, true);
+    })
+
     if (!allowed) {
         throw "You don't have the required items to pick " + loc.specialItem;
     }
